@@ -51,7 +51,7 @@ resource "oci_core_route_table" "private_route_table" {
 
 resource "oci_core_security_list" "public_security_list_ssh" {
   compartment_id = var.compartment_ocid
-  display_name   = "Allow Public SSH Connections to WordPress"
+  display_name   = "public_security_list_ssh"
   vcn_id         = oci_core_virtual_network.magento_redis_mds_vcn.id
   egress_security_rules {
     destination = "0.0.0.0/0"
@@ -70,7 +70,7 @@ resource "oci_core_security_list" "public_security_list_ssh" {
 
 resource "oci_core_security_list" "public_security_list_http" {
   compartment_id = var.compartment_ocid
-  display_name   = "Allow HTTP(S) to magento"
+  display_name   = "public_security_list_http"
   vcn_id         = oci_core_virtual_network.magento_redis_mds_vcn.id
   egress_security_rules {
     destination = "0.0.0.0/0"
@@ -92,6 +92,28 @@ resource "oci_core_security_list" "public_security_list_http" {
     protocol = "6"
     source   = "0.0.0.0/0"
   }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+}
+
+resource "oci_core_security_list" "private_security_list_redis" {
+  compartment_id = var.compartment_ocid
+  display_name   = "private_security_list_redis"
+  vcn_id         = oci_core_virtual_network.magento_redis_mds_vcn.id
+  
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = "6"
+  }
+  
+  ingress_security_rules {
+    tcp_options {
+      max = 6379
+      min = 6379
+    }
+    protocol = "6"
+    source   = var.vcn_cidr
+  }
+  
   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
@@ -223,7 +245,7 @@ resource "oci_core_subnet" "redis_subnet_private" {
   compartment_id             = var.compartment_ocid
   vcn_id                     = oci_core_virtual_network.magento_redis_mds_vcn.id
   route_table_id             = oci_core_route_table.private_route_table.id
-  security_list_ids          = [oci_core_security_list.public_security_list_ssh.id]
+  security_list_ids          = [oci_core_security_list.public_security_list_ssh.id,oci_core_security_list.private_security_list_redis.id]
   dhcp_options_id            = oci_core_virtual_network.magento_redis_mds_vcn.default_dhcp_options_id
   prohibit_public_ip_on_vnic = "true"
   dns_label                  = "redpriv"
