@@ -198,6 +198,18 @@ variable "use_shared_storage" {
   default     = true
 }
 
+variable "numberOfMasterNodes" {
+  default = 3
+}
+
+variable "numberOfReplicaNodes" {
+  default = 3
+}
+
+variable "cluster_enabled" {
+  default = true
+}
+
 # Dictionary Locals
 locals {
   compute_flexible_shapes = [
