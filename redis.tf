@@ -21,10 +21,13 @@ module "oci-arch-redis" {
   vcn_id                          = oci_core_virtual_network.magento_redis_mds_vcn.id
   use_private_subnet              = true 
   redis_subnet_id                 = oci_core_subnet.redis_subnet_private.id
+  instance_shape                  = var.redis_instance_shape
+  instance_flex_shape_ocpus       = var.redis_instance_flex_shape_ocpus
+  instance_flex_shape_memory      = var.redis_instance_flex_shape_memory
   use_bastion_service             = var.use_bastion_service 
   bastion_server_public_ip        = !var.use_bastion_service ? oci_core_instance.bastion_instance[0].public_ip : ""
   bastion_service_id              = var.use_bastion_service ? oci_bastion_bastion.bastion_service_redis[0].id : ""
-  numberOfMasterNodes             = 1
-  numberOfReplicaNodes            = 2
-  cluster_enabled                 = false
+  numberOfMasterNodes             = var.numberOfRedisMasterNodes
+  numberOfReplicaNodes            = var.numberOfRedisReplicaNodes
+  cluster_enabled                 = var.cluster_enabled
 }

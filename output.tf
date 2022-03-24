@@ -5,6 +5,18 @@ output "magento_home_URL" {
   value = "http://${module.oci-arch-magento.public_ip[0]}/"
 }
 
+output "magento_backend_URL" {
+  value = "http://${module.oci-arch-magento.public_ip[0]}/index.php/${var.magento_backend_frontname}/"
+}
+
+output "magento_backend_username" {
+  value = "admin"
+}
+
+output "magento_backend_password" {
+  value = var.magento_password
+}
+
 output "generated_magento_ssh_private_key" {
   value     = module.oci-arch-magento.generated_ssh_private_key
   sensitive = true
@@ -25,16 +37,9 @@ output "generated_redis_ssh_public_key" {
   sensitive = true
 }
 
-output "magento_name" {
-  value = var.magento_name
-}
-
-output "magento_password" {
-  value = var.magento_password
-}
-
-output "magento_database" {
-  value = var.magento_schema
+output "redis_password" {
+  value     = module.oci-arch-redis.redis_password
+  sensitive = true
 }
 
 output "mds_instance_ip" {

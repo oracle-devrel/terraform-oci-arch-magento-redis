@@ -28,7 +28,7 @@ variable "region" {
 
 variable "vcn" {
   description = "VCN Name"
-  default     = "magento_mds_vcn"
+  default     = "magento_redis_mds_vcn"
 }
 
 variable "vcn_cidr" {
@@ -188,8 +188,13 @@ variable "magento_admin_email" {
   description = "Magento Admin Email"
 }
 
-variable "numberOfNodes" {
-    description = "Amount of Webservers to deploy"
+variable "magento_backend_frontname" {
+  description = "Magento Admin Backend Frontname"
+  default     = "magento_admin"
+}
+
+variable "numberOfMagentoNodes" {
+    description = "Amount of Magento nodes to deploy"
     default = 2
 }
 
@@ -198,16 +203,41 @@ variable "use_shared_storage" {
   default     = true
 }
 
-variable "numberOfMasterNodes" {
-  default = 3
+variable "use_redis_cache" {
+    default = true
+} 
+
+variable "use_redis_as_cache_backend" {
+    default = true
+}          
+
+variable "use_redis_as_page_cache" {
+    default = true
 }
 
-variable "numberOfReplicaNodes" {
-  default = 3
+variable "redis_instance_shape" {
+  description = "Instance Shape"
+  default     = "VM.Standard.E4.Flex"
+}
+
+variable "redis_instance_flex_shape_ocpus" {
+  default = 1
+}
+
+variable "redis_instance_flex_shape_memory" {
+  default = 10
+}
+
+variable "numberOfRedisMasterNodes" {
+  default = 1
+}
+
+variable "numberOfRedisReplicaNodes" {
+  default = 2
 }
 
 variable "cluster_enabled" {
-  default = true
+  default = false
 }
 
 # Dictionary Locals
