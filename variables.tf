@@ -198,6 +198,11 @@ variable "numberOfMagentoNodes" {
     default = 2
 }
 
+variable "use_shared_storage" {
+  description = "Decide if you want to use shared NFS on OCI FSS"
+  default     = true
+}
+
 variable "use_redis_cache" {
     default = true
 } 
@@ -210,9 +215,17 @@ variable "use_redis_as_page_cache" {
     default = true
 }
 
-variable "use_shared_storage" {
-  description = "Decide if you want to use shared NFS on OCI FSS"
-  default     = true
+variable "redis_instance_shape" {
+  description = "Instance Shape"
+  default     = "VM.Standard.E4.Flex"
+}
+
+variable "redis_instance_flex_shape_ocpus" {
+  default = 1
+}
+
+variable "redis_instance_flex_shape_memory" {
+  default = 10
 }
 
 variable "numberOfRedisMasterNodes" {
