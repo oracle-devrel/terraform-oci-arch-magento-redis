@@ -24,7 +24,7 @@ module "oci-arch-redis" {
   use_bastion_service             = var.use_bastion_service 
   bastion_server_public_ip        = !var.use_bastion_service ? oci_core_instance.bastion_instance[0].public_ip : ""
   bastion_service_id              = var.use_bastion_service ? oci_bastion_bastion.bastion_service_redis[0].id : ""
-  numberOfMasterNodes             = 1
-  numberOfReplicaNodes            = 2
-  cluster_enabled                 = false
+  numberOfMasterNodes             = var.numberOfRedisMasterNodes
+  numberOfReplicaNodes            = var.numberOfRedisReplicaNodes
+  cluster_enabled                 = var.cluster_enabled
 }

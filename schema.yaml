@@ -31,7 +31,7 @@ variableGroups:
       - compartment_ocid
       - availability_domain_name
       - admin_password
-      - numberOfNodes
+      - numberOfMagentoNodes
       - magento_password
       - magento_admin_password 
       - magento_admin_email 
@@ -90,14 +90,18 @@ variableGroups:
       - magento_instance_name
       - magento_name
       - magento_schema
+      - magento_backend_frontname
+      - use_redis_cache
+      - use_redis_as_cache_backend
+      - use_redis_as_page_cache
 
   - title: Redis Optional Configuration
     visible: 
         and:
           - show_advanced
     variables:
-      - numberOfMasterNodes
-      - numberOfReplicaNodes
+      - numberOfRedisMasterNodes
+      - numberOfRedisReplicaNodes
       - cluster_enabled
 
   - title: MDS Optional Configuration
@@ -137,10 +141,10 @@ variables:
       regionName: ${region}
       compartmentId: ${compartment_ocid}
 
-  numberOfNodes:
+  numberOfMagentoNodes:
     type: number
     required: false
-    minimum: 1
+    minimum: 2
     maximum: 128
     multipleOf: 1
     default: 2
@@ -431,13 +435,47 @@ variables:
     description: MySQL Username for Magento
     minLength: 2
     maxLength: 14
-    pattern: "^[a-zA-Z][a-zA-Z0-9]+$"
+    pattern: "^[a-zA-Z][a-zA-Z0-9]+$" 
 
   magento_schema:
     type: string
     required: true
     title: MySQL Magento Schema
     description: MySQL Schema/Database for Magento
+
+  magento_backend_frontname:
+    type: string
+    required: false
+    title: Magento Backend Frontname
+    description: Magento Backend Frontname (Admin Console)
+
+  use_redis_cache:
+    type: boolean
+    visible: true
+    default: true
+    required: false
+    title: "Use Redis as Magento's Cache"
+    description: "Check the box to use Redis as Magento's Cache."
+
+  use_redis_as_cache_backend:
+    type: boolean
+    visible:
+      and:
+        - use_redis_cache
+    default: true
+    required: false
+    title: "Use Redis as Magento's Default Backend Cache"
+    description: "Check the box to use Redis as Magento's Default Backend Cache."
+
+  use_redis_as_page_cache:
+    type: boolean
+    visible:
+      and:
+        - use_redis_cache
+    default: true
+    required: false
+    title: "Use Redis as Magento's Page Cache"
+    description: "Check the box to use Redis as Magento's Page Cache."
 
   use_shared_storage:
     type: boolean
@@ -464,7 +502,7 @@ variables:
           - numberOfReplicaNodes
           - 2 
 
-  numberOfMasterNodes:
+  numberOfRedisMasterNodes:
     type: number
     required: false
     minimum: 1
@@ -474,10 +512,10 @@ variables:
     title: "Number of Redis Master Nodes"
     description: "Choose number of Redis Master Nodes (default=1)."
 
-  numberOfReplicaNodes:
+  numberOfRedisReplicaNodes:
     type: number
     required: false
-    minimum: 1
+    minimum: 2
     maximum: 65535
     multipleOf: 1
     default: 2
