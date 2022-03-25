@@ -76,17 +76,17 @@ variableGroups:
         and:
           - show_advanced
     variables:
-      - node_shape
       - instance_os
       - linux_os_version
-      - node_flex_shape_ocpus
-      - node_flex_shape_memory  
 
   - title: Magento Optional Configuration
     visible: 
         and:
           - show_advanced
     variables:
+      - node_shape
+      - node_flex_shape_ocpus
+      - node_flex_shape_memory  
       - magento_instance_name
       - magento_name
       - magento_schema
