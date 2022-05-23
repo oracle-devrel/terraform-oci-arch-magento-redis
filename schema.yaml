@@ -92,6 +92,7 @@ variableGroups:
       - magento_schema
       - magento_backend_frontname
       - use_redis_cache
+      - use_redis_as_session_storage
       - use_redis_as_cache_backend
       - use_redis_as_page_cache
 
@@ -460,6 +461,16 @@ variables:
     required: false
     title: "Use Redis as Magento's Cache"
     description: "Check the box to use Redis as Magento's Cache."
+
+  use_redis_as_session_storage:
+    type: boolean
+    visible:
+      and:
+        - use_redis_cache
+    default: true
+    required: false
+    title: "Use Redis as Magento's Session Storage"
+    description: "Check the box to use Redis as Magento's Session Storage."
 
   use_redis_as_cache_backend:
     type: boolean

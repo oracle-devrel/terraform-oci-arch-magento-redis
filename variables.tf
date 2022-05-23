@@ -7,7 +7,7 @@ variable "private_key_path" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.0"
+  default     = "1.0.1"
 }
 
 variable "availability_domain_name" {
@@ -53,7 +53,7 @@ variable "node_flex_shape_ocpus" {
 
 variable "node_flex_shape_memory" {
   description = "Flex Instance shape Memory (GB)"
-  default = 6
+  default = 10
 }
 
 variable "label_prefix" {
@@ -214,6 +214,10 @@ variable "use_redis_as_cache_backend" {
 variable "use_redis_as_page_cache" {
     default = true
 }
+
+variable "use_redis_as_session_storage" {
+    default = true
+}  
 
 variable "redis_instance_shape" {
   description = "Instance Shape"
