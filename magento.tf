@@ -37,6 +37,7 @@ module "oci-arch-magento" {
   bastion_service_id              = var.use_bastion_service ? oci_bastion_bastion.bastion_service_magento[0].id : ""
   bastion_service_region          = var.use_bastion_service ? var.region : ""
   use_redis_cache                 = var.use_redis_cache
+  use_redis_as_session_storage    = var.use_redis_as_session_storage
   use_redis_as_cache_backend      = var.use_redis_as_cache_backend 
   use_redis_as_page_cache         = var.use_redis_as_page_cache
   redis_ip_address                = module.oci-arch-redis.redis-masters_private_ips[0]
